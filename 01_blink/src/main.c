@@ -16,7 +16,7 @@
 
 // MK = stc15w408as        DIP20:
 //   -----------------------------------------------------
-// 1 P1.2/ADC2/SS/ECI/CMPO                  CCP0/ADC1/P1.1 20 
+// 1 P1.2/ADC2/SS/ECI/CMPO                  CCP0/ADC1/P1.1 20
 // 2 P1.3/ADC3/MOSI                         CCP1/ADC0/P1.0 19
 // 3 P1.4/ADC4/MISO            CCP2_2/CCP2/TxD_2/INT3/P3.7 18
 // 4 P1.5/ADC5/SCLK                 CCP1_2/RxD_2/INT2/P3.6 17
@@ -25,10 +25,12 @@
 // 7 P5.4/RST/MCLKO/CMP-                         INT1/P3.3 14
 // 8 Vcc                                         INT0/P3.2 13
 // 9 P5.5/CMP+                                 T2/TxD/P3.1 12
-//10 Gnd                               T2CLKO/INT4RxD/P3.3 11
+//10 Gnd                               T2CLKO/INT4RxD/P3.0 11
 //   -----------------------------------------------------
 
-
+// светодиоды присоеденяем (через резистор 470 ом)
+// к 2,3,4 битам 1 порта, соответственно
+//   1,2,3 ножкам
 
 #include "stc15.h"
 #include <stdint.h>
