@@ -1,4 +1,34 @@
-//
+//битовые операции  (напоминалка) 
+// & bitwise AND 
+// ^ bitwise exclusive OR 
+// | bitwise inclusive OR
+//пример
+// Bit value	Results of
+// E1	E2	E1 & E2		E1 ^ E2		E1 | E2
+// 0	0	0		0		0
+// 1	0	0		1		1
+// 0	1	0		1		1
+// 1	1	1		0		1
+// 
+// ~	bitwise complement; inverts each bit.
+// >>	bitwise shift right; moves the bits to the right, discards the far right bit and if unsigned assigns 0 to the left most bit, otherwise sign extends.
+// <<	bitwise shift left; moves the bits to the left, it discards the far left bit and assigns 0 to the right most bit.
+
+// MK = stc15w408as        DIP20:
+//   -----------------------------------------------------
+// 1 P1.2/ADC2/SS/ECI/CMPO                  CCP0/ADC1/P1.1 20 
+// 2 P1.3/ADC3/MOSI                         CCP1/ADC0/P1.0 19
+// 3 P1.4/ADC4/MISO            CCP2_2/CCP2/TxD_2/INT3/P3.7 18
+// 4 P1.5/ADC5/SCLK                 CCP1_2/RxD_2/INT2/P3.6 17
+// 5 P1.6/ADC6/RxD_3/XTAL2/MCLKO_2      CCP0_2/T0CLKO/P3.5 16
+// 6 P1.7/ADC7/TxD_3/XTAL1                   ECI_2/T0/P3.4 15
+// 7 P5.4/RST/MCLKO/CMP-                         INT1/P3.3 14
+// 8 Vcc                                         INT0/P3.2 13
+// 9 P5.5/CMP+                                 T2/TxD/P3.1 12
+//10 Gnd                               T2CLKO/INT4RxD/P3.3 11
+//   -----------------------------------------------------
+
+
 
 #include "stc15.h"
 #include <stdint.h>
@@ -82,7 +112,7 @@ int main()
     setup();
 
 
-    // LOOP
+    // LOOP  цикл
     while(1)
     {
 
@@ -91,6 +121,20 @@ int main()
          // проецирование(отображение) памяти на бит порта, применяеться в некоторых МК
       delay_ms(i_my_deley); // 
       P1_2 = 1; //out 1 pin 2 port 1
+
+      // P1_2 - если поискать в заголовочных файлах, это:  
+      //	__sbit __at (0x92) P1_2 ;
+      //  т.е. записывает в ячейку 0x92 специального адр. пространства __sbit
+      // можно еще встретьть такую запись:
+      //  P1^2 = 1;
+      // что эквивалентно 
+      //  P1_2 = 1;
+      //   если поискать в заголовочных файлах, то
+      // 	sfr P1          =   0x90;         // (sfr - спец. функция регистр)
+      // 	sbit P12        =   P1^2;
+      //  т.е. записывает в ячейку  0x90^2=0x92 специального адр. пространства __sbit
+
+
 
       P1_3 = 0; //out 0 pin 3 port 1
       delay_ms(i_my_deley);
