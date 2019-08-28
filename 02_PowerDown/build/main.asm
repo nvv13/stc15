@@ -9,8 +9,6 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _main
-	.globl _setup
-	.globl _delay_ms
 	.globl _CCF0
 	.globl _CCF1
 	.globl _CCF2
@@ -205,7 +203,6 @@
 	.globl _DPL
 	.globl _SP
 	.globl _P0
-	.globl _i_my_deley
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -419,12 +416,9 @@ _CCF0	=	0x00d8
 ; internal ram data
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
-_i_my_deley::
-	.ds 2
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
-	.area	OSEG    (OVR,DATA)
 ;--------------------------------------------------------
 ; Stack segment in internal ram 
 ;--------------------------------------------------------
@@ -505,16 +499,13 @@ __sdcc_program_startup:
 ;--------------------------------------------------------
 	.area CSEG    (CODE)
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'delay_ms'
+;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;ms                        Allocated to registers r6 r7 
-;i                         Allocated to registers r4 r5 
-;------------------------------------------------------------
-;	src/main.c:51: void  delay_ms(unsigned int ms)
+;	src/main.c:38: int main()
 ;	-----------------------------------------
-;	 function delay_ms
+;	 function main
 ;	-----------------------------------------
-_delay_ms:
+_main:
 	ar7 = 0x07
 	ar6 = 0x06
 	ar5 = 0x05
@@ -523,117 +514,17 @@ _delay_ms:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-	mov	r6,dpl
-	mov	r7,dph
-;	src/main.c:54: do{
-00104$:
-;	src/main.c:55: i = FOSC / 17000;
-	mov	r4,#0x0a
-	mov	r5,#0x08
-;	src/main.c:56: while(--i)    ;
-00101$:
-	mov	a,r4
-	add	a,#0xff
-	mov	r2,a
-	mov	a,r5
-	addc	a,#0xff
-	mov	r3,a
-	mov	ar4,r2
-	mov	ar5,r3
-	mov	a,r2
-	orl	a,r3
-	jnz	00101$
-;	src/main.c:57: }while(--ms);
-	mov	a,r6
-	add	a,#0xff
-	mov	r4,a
-	mov	a,r7
-	addc	a,#0xff
-	mov	r5,a
-	mov	ar6,r4
-	mov	ar7,r5
-	mov	a,r4
-	orl	a,r5
-	jnz	00104$
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'setup'
-;------------------------------------------------------------
-;	src/main.c:66: void setup(void)
-;	-----------------------------------------
-;	 function setup
-;	-----------------------------------------
-_setup:
-;	src/main.c:96: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
-	anl	_P1M1,#0xfb
-;	src/main.c:97: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
-	orl	_P1M0,#0x04
-;	src/main.c:100: P1M1 &= ~(1<<3) ;
-	anl	_P1M1,#0xf7
-;	src/main.c:101: P1M0 |= (1<<3) ;
-	orl	_P1M0,#0x08
-;	src/main.c:104: P1M1 &= ~(1<<4) ;
-	anl	_P1M1,#0xef
-;	src/main.c:105: P1M0 |= (1<<4) ;
-	orl	_P1M0,#0x10
-;	src/main.c:107: i_my_deley=START_DELAY;
-	mov	_i_my_deley,#0x32
-	mov	(_i_my_deley + 1),#0x00
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'main'
-;------------------------------------------------------------
-;	src/main.c:112: int main()
-;	-----------------------------------------
-;	 function main
-;	-----------------------------------------
-_main:
-;	src/main.c:114: setup();
-	lcall	_setup
-;	src/main.c:118: while(1)
-00104$:
-;	src/main.c:121: P1_2 = 0; //out 0 pin 2 port 1
-	clr	_P1_2
-;	src/main.c:124: delay_ms(i_my_deley); // 
-	mov	dpl,_i_my_deley
-	mov	dph,(_i_my_deley + 1)
-	lcall	_delay_ms
-;	src/main.c:125: P1_2 = 1; //out 1 pin 2 port 1
-	setb	_P1_2
-;	src/main.c:141: P1_3 = 0; //out 0 pin 3 port 1
-	clr	_P1_3
-;	src/main.c:142: delay_ms(i_my_deley);
-	mov	dpl,_i_my_deley
-	mov	dph,(_i_my_deley + 1)
-	lcall	_delay_ms
-;	src/main.c:143: P1_3 = 1; //out 1 pin 3 port 1
-	setb	_P1_3
-;	src/main.c:145: P1_4 = 0; //out 0 pin 4 port 1
-	clr	_P1_4
-;	src/main.c:146: delay_ms(i_my_deley);
-	mov	dpl,_i_my_deley
-	mov	dph,(_i_my_deley + 1)
-	lcall	_delay_ms
-;	src/main.c:147: P1_4 = 1; //out 1 pin 4 port 1
-	setb	_P1_4
-;	src/main.c:149: i_my_deley-=1;
-	dec	_i_my_deley
-	mov	a,#0xff
-	cjne	a,_i_my_deley,00114$
-	dec	(_i_my_deley + 1)
-00114$:
-;	src/main.c:150: if(i_my_deley<=0)i_my_deley=START_DELAY;
-	clr	c
-	clr	a
-	subb	a,_i_my_deley
-	mov	a,#(0x00 ^ 0x80)
-	mov	b,(_i_my_deley + 1)
-	xrl	b,#0x80
-	subb	a,b
-	jc	00104$
-	mov	_i_my_deley,#0x32
-	mov	(_i_my_deley + 1),#0x00
-	sjmp	00104$
+;	src/main.c:40: while (1)
+00102$:
+;	src/main.c:73: PCON |= 0x02;   // PD   : PCON.1 Stop Mode/Power-Down Select bit..
+	orl	_PCON,#0x02
+;	src/main.c:76: NOP();          // 
+	NOP	
+;	src/main.c:77: NOP();
+	NOP	
+;	src/main.c:78: NOP();
+	NOP	
+	sjmp	00102$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area XINIT   (CODE)
