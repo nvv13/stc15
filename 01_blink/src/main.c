@@ -99,6 +99,9 @@ P1M1[7 : 0] P1M0 [7 : 0]
 1 1 Open Drain,internal pull-up resistors should be disabled and external pull-up resistors need to join.
     открытый коллектор, транзистор тянет до 20ma на 0, если что, нуждаеться во внешнем резисторе на питание
 
+*все порты, по умолчанию, в тежиме 0 0 quasi_bidirectional, однако, P1.7/XLAT1 и P1.6/XLAT2 могут использовать внешний кристал
+ МК при старте проверяет, также при старте, проверяется режим "прошивки" кристала...
+
 */
     // set P1 pins 2 to push-pull output
     // настраеваем

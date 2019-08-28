@@ -520,48 +520,80 @@ _setup:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	src/main.c:70: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
+;	src/main.c:43: P0M0 = 0x00;
+	mov	_P0M0,#0x00
+;	src/main.c:44: P0M1 = 0x00;
+	mov	_P0M1,#0x00
+;	src/main.c:45: P1M0 = 0x00;
+	mov	_P1M0,#0x00
+;	src/main.c:46: P1M1 = 0x00;
+	mov	_P1M1,#0x00
+;	src/main.c:47: P2M0 = 0x00;
+	mov	_P2M0,#0x00
+;	src/main.c:48: P2M1 = 0x00;
+	mov	_P2M1,#0x00
+;	src/main.c:49: P3M0 = 0x00;
+	mov	_P3M0,#0x00
+;	src/main.c:50: P3M1 = 0x00;
+	mov	_P3M1,#0x00
+;	src/main.c:51: P4M0 = 0x00;
+	mov	_P4M0,#0x00
+;	src/main.c:52: P4M1 = 0x00;
+	mov	_P4M1,#0x00
+;	src/main.c:53: P5M0 = 0x00;
+	mov	_P5M0,#0x00
+;	src/main.c:54: P5M1 = 0x00;
+	mov	_P5M1,#0x00
+;	src/main.c:55: P6M0 = 0x00;
+	mov	_P6M0,#0x00
+;	src/main.c:56: P6M1 = 0x00;
+	mov	_P6M1,#0x00
+;	src/main.c:57: P7M0 = 0x00;
+	mov	_P7M0,#0x00
+;	src/main.c:58: P7M1 = 0x00;
+	mov	_P7M1,#0x00
+;	src/main.c:88: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
 	anl	_P1M1,#0xfb
-;	src/main.c:71: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
+;	src/main.c:89: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
 	orl	_P1M0,#0x04
-;	src/main.c:74: P1M1 &= ~(1<<3) ;
+;	src/main.c:92: P1M1 &= ~(1<<3) ;
 	anl	_P1M1,#0xf7
-;	src/main.c:75: P1M0 |= (1<<3) ;
+;	src/main.c:93: P1M0 |= (1<<3) ;
 	orl	_P1M0,#0x08
-;	src/main.c:78: P1M1 &= ~(1<<4) ;
+;	src/main.c:96: P1M1 &= ~(1<<4) ;
 	anl	_P1M1,#0xef
-;	src/main.c:79: P1M0 |= (1<<4) ;
+;	src/main.c:97: P1M0 |= (1<<4) ;
 	orl	_P1M0,#0x10
-;	src/main.c:82: P1_2 =0; 
+;	src/main.c:100: P1_2 =0; 
 	clr	_P1_2
-;	src/main.c:85: P1_3 =1; //
+;	src/main.c:103: P1_3 =1; //
 	setb	_P1_3
-;	src/main.c:86: P1_4 =0; //
+;	src/main.c:104: P1_4 =0; //
 	clr	_P1_4
-;	src/main.c:124: IT0 = 0; //Both rising and falling edge of INT0 can wake up MCU
+;	src/main.c:142: IT0 = 0; //Both rising and falling edge of INT0 can wake up MCU
 	clr	_IT0
-;	src/main.c:162: EX0 = 1; //external interrupt 0 would be enabled.
+;	src/main.c:180: EX0 = 1; //external interrupt 0 would be enabled.
 	setb	_EX0
-;	src/main.c:163: EA = 1;  //global - interrupt enabled
+;	src/main.c:181: EA = 1;  //global - interrupt enabled
 	setb	_EA
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'exint0'
 ;------------------------------------------------------------
-;	src/main.c:172: INTERRUPT(exint0, IE0_VECTOR)   //void exint0(void) __interrupt(IE0_VECTOR) 
+;	src/main.c:190: INTERRUPT(exint0, IE0_VECTOR)   //void exint0(void) __interrupt(IE0_VECTOR) 
 ;	-----------------------------------------
 ;	 function exint0
 ;	-----------------------------------------
 _exint0:
 	push	acc
 	push	psw
-;	src/main.c:174: P1_2 =!P1_2; //out reverse pin 2 port 1
+;	src/main.c:192: P1_2 =!P1_2; //out reverse pin 2 port 1
 	cpl	_P1_2
-;	src/main.c:175: P1_3 =!P1_3; //
+;	src/main.c:193: P1_3 =!P1_3; //
 	cpl	_P1_3
-;	src/main.c:176: P1_4 =!P1_4; //
+;	src/main.c:194: P1_4 =!P1_4; //
 	cpl	_P1_4
-;	src/main.c:178: FLAG = INT0; //save the sate of INT0, INT0=0(falling); INT0=1(rising)
+;	src/main.c:196: FLAG = INT0; //save the sate of INT0, INT0=0(falling); INT0=1(rising)
 	mov	c,_INT0
 	clr	a
 	rlc	a
@@ -576,20 +608,20 @@ _exint0:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;	src/main.c:183: int main()
+;	src/main.c:201: int main()
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	src/main.c:185: setup(); 
+;	src/main.c:203: setup(); 
 	lcall	_setup
-;	src/main.c:187: while (1)
+;	src/main.c:205: while (1)
 00102$:
-;	src/main.c:222: PCON = 0x02;    //Enter Stop/Power-Down Mode
+;	src/main.c:240: PCON = 0x02;    //Enter Stop/Power-Down Mode
 	mov	_PCON,#0x02
-;	src/main.c:224: NOP();          // Fisrt implement this statement and then enter interrupt service routine
+;	src/main.c:242: NOP();          // Fisrt implement this statement and then enter interrupt service routine
 	NOP	
-;	src/main.c:226: NOP();
+;	src/main.c:244: NOP();
 	NOP	
 	sjmp	00102$
 	.area CSEG    (CODE)

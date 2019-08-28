@@ -476,7 +476,7 @@
                                     476 	.area HOME    (CODE)
       000000                        477 __interrupt_vect:
       000000 02 00 09         [24]  478 	ljmp	__sdcc_gsinit_startup
-      000003 02 00 84         [24]  479 	ljmp	_exint0
+      000003 02 00 B4         [24]  479 	ljmp	_exint0
                                     480 ;--------------------------------------------------------
                                     481 ; global & static initialisations
                                     482 ;--------------------------------------------------------
@@ -498,7 +498,7 @@
                                     498 	.area HOME    (CODE)
                                     499 	.area HOME    (CODE)
       000006                        500 __sdcc_program_startup:
-      000006 02 00 99         [24]  501 	ljmp	_main
+      000006 02 00 C9         [24]  501 	ljmp	_main
                                     502 ;	return from main will return to caller
                                     503 ;--------------------------------------------------------
                                     504 ; code
@@ -520,79 +520,111 @@
                            000002   520 	ar2 = 0x02
                            000001   521 	ar1 = 0x01
                            000000   522 	ar0 = 0x00
-                                    523 ;	src/main.c:70: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
-      000065 53 91 FB         [24]  524 	anl	_P1M1,#0xfb
-                                    525 ;	src/main.c:71: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
-      000068 43 92 04         [24]  526 	orl	_P1M0,#0x04
-                                    527 ;	src/main.c:74: P1M1 &= ~(1<<3) ;
-      00006B 53 91 F7         [24]  528 	anl	_P1M1,#0xf7
-                                    529 ;	src/main.c:75: P1M0 |= (1<<3) ;
-      00006E 43 92 08         [24]  530 	orl	_P1M0,#0x08
-                                    531 ;	src/main.c:78: P1M1 &= ~(1<<4) ;
-      000071 53 91 EF         [24]  532 	anl	_P1M1,#0xef
-                                    533 ;	src/main.c:79: P1M0 |= (1<<4) ;
-      000074 43 92 10         [24]  534 	orl	_P1M0,#0x10
-                                    535 ;	src/main.c:82: P1_2 =0; 
-      000077 C2 92            [12]  536 	clr	_P1_2
-                                    537 ;	src/main.c:85: P1_3 =1; //
-      000079 D2 93            [12]  538 	setb	_P1_3
-                                    539 ;	src/main.c:86: P1_4 =0; //
-      00007B C2 94            [12]  540 	clr	_P1_4
-                                    541 ;	src/main.c:124: IT0 = 0; //Both rising and falling edge of INT0 can wake up MCU
-      00007D C2 88            [12]  542 	clr	_IT0
-                                    543 ;	src/main.c:162: EX0 = 1; //external interrupt 0 would be enabled.
-      00007F D2 A8            [12]  544 	setb	_EX0
-                                    545 ;	src/main.c:163: EA = 1;  //global - interrupt enabled
-      000081 D2 AF            [12]  546 	setb	_EA
-      000083 22               [24]  547 	ret
-                                    548 ;------------------------------------------------------------
-                                    549 ;Allocation info for local variables in function 'exint0'
-                                    550 ;------------------------------------------------------------
-                                    551 ;	src/main.c:172: INTERRUPT(exint0, IE0_VECTOR)   //void exint0(void) __interrupt(IE0_VECTOR) 
-                                    552 ;	-----------------------------------------
-                                    553 ;	 function exint0
-                                    554 ;	-----------------------------------------
-      000084                        555 _exint0:
-      000084 C0 E0            [24]  556 	push	acc
-      000086 C0 D0            [24]  557 	push	psw
-                                    558 ;	src/main.c:174: P1_2 =!P1_2; //out reverse pin 2 port 1
-      000088 B2 92            [12]  559 	cpl	_P1_2
-                                    560 ;	src/main.c:175: P1_3 =!P1_3; //
-      00008A B2 93            [12]  561 	cpl	_P1_3
-                                    562 ;	src/main.c:176: P1_4 =!P1_4; //
-      00008C B2 94            [12]  563 	cpl	_P1_4
-                                    564 ;	src/main.c:178: FLAG = INT0; //save the sate of INT0, INT0=0(falling); INT0=1(rising)
-      00008E A2 B2            [12]  565 	mov	c,_INT0
-      000090 E4               [12]  566 	clr	a
-      000091 33               [12]  567 	rlc	a
-      000092 F5 30            [12]  568 	mov	_FLAG,a
-      000094 D0 D0            [24]  569 	pop	psw
-      000096 D0 E0            [24]  570 	pop	acc
-      000098 32               [24]  571 	reti
-                                    572 ;	eliminated unneeded mov psw,# (no regs used in bank)
-                                    573 ;	eliminated unneeded push/pop dpl
-                                    574 ;	eliminated unneeded push/pop dph
-                                    575 ;	eliminated unneeded push/pop b
-                                    576 ;------------------------------------------------------------
-                                    577 ;Allocation info for local variables in function 'main'
-                                    578 ;------------------------------------------------------------
-                                    579 ;	src/main.c:183: int main()
-                                    580 ;	-----------------------------------------
-                                    581 ;	 function main
-                                    582 ;	-----------------------------------------
-      000099                        583 _main:
-                                    584 ;	src/main.c:185: setup(); 
-      000099 12 00 65         [24]  585 	lcall	_setup
-                                    586 ;	src/main.c:187: while (1)
-      00009C                        587 00102$:
-                                    588 ;	src/main.c:222: PCON = 0x02;    //Enter Stop/Power-Down Mode
-      00009C 75 87 02         [24]  589 	mov	_PCON,#0x02
-                                    590 ;	src/main.c:224: NOP();          // Fisrt implement this statement and then enter interrupt service routine
-      00009F 00               [12]  591 	NOP	
-                                    592 ;	src/main.c:226: NOP();
-      0000A0 00               [12]  593 	NOP	
-      0000A1 80 F9            [24]  594 	sjmp	00102$
-                                    595 	.area CSEG    (CODE)
-                                    596 	.area CONST   (CODE)
-                                    597 	.area XINIT   (CODE)
-                                    598 	.area CABS    (ABS,CODE)
+                                    523 ;	src/main.c:43: P0M0 = 0x00;
+      000065 75 94 00         [24]  524 	mov	_P0M0,#0x00
+                                    525 ;	src/main.c:44: P0M1 = 0x00;
+      000068 75 93 00         [24]  526 	mov	_P0M1,#0x00
+                                    527 ;	src/main.c:45: P1M0 = 0x00;
+      00006B 75 92 00         [24]  528 	mov	_P1M0,#0x00
+                                    529 ;	src/main.c:46: P1M1 = 0x00;
+      00006E 75 91 00         [24]  530 	mov	_P1M1,#0x00
+                                    531 ;	src/main.c:47: P2M0 = 0x00;
+      000071 75 96 00         [24]  532 	mov	_P2M0,#0x00
+                                    533 ;	src/main.c:48: P2M1 = 0x00;
+      000074 75 95 00         [24]  534 	mov	_P2M1,#0x00
+                                    535 ;	src/main.c:49: P3M0 = 0x00;
+      000077 75 B2 00         [24]  536 	mov	_P3M0,#0x00
+                                    537 ;	src/main.c:50: P3M1 = 0x00;
+      00007A 75 B1 00         [24]  538 	mov	_P3M1,#0x00
+                                    539 ;	src/main.c:51: P4M0 = 0x00;
+      00007D 75 B4 00         [24]  540 	mov	_P4M0,#0x00
+                                    541 ;	src/main.c:52: P4M1 = 0x00;
+      000080 75 B3 00         [24]  542 	mov	_P4M1,#0x00
+                                    543 ;	src/main.c:53: P5M0 = 0x00;
+      000083 75 CA 00         [24]  544 	mov	_P5M0,#0x00
+                                    545 ;	src/main.c:54: P5M1 = 0x00;
+      000086 75 C9 00         [24]  546 	mov	_P5M1,#0x00
+                                    547 ;	src/main.c:55: P6M0 = 0x00;
+      000089 75 CC 00         [24]  548 	mov	_P6M0,#0x00
+                                    549 ;	src/main.c:56: P6M1 = 0x00;
+      00008C 75 CB 00         [24]  550 	mov	_P6M1,#0x00
+                                    551 ;	src/main.c:57: P7M0 = 0x00;
+      00008F 75 E2 00         [24]  552 	mov	_P7M0,#0x00
+                                    553 ;	src/main.c:58: P7M1 = 0x00;
+      000092 75 E1 00         [24]  554 	mov	_P7M1,#0x00
+                                    555 ;	src/main.c:88: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
+      000095 53 91 FB         [24]  556 	anl	_P1M1,#0xfb
+                                    557 ;	src/main.c:89: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
+      000098 43 92 04         [24]  558 	orl	_P1M0,#0x04
+                                    559 ;	src/main.c:92: P1M1 &= ~(1<<3) ;
+      00009B 53 91 F7         [24]  560 	anl	_P1M1,#0xf7
+                                    561 ;	src/main.c:93: P1M0 |= (1<<3) ;
+      00009E 43 92 08         [24]  562 	orl	_P1M0,#0x08
+                                    563 ;	src/main.c:96: P1M1 &= ~(1<<4) ;
+      0000A1 53 91 EF         [24]  564 	anl	_P1M1,#0xef
+                                    565 ;	src/main.c:97: P1M0 |= (1<<4) ;
+      0000A4 43 92 10         [24]  566 	orl	_P1M0,#0x10
+                                    567 ;	src/main.c:100: P1_2 =0; 
+      0000A7 C2 92            [12]  568 	clr	_P1_2
+                                    569 ;	src/main.c:103: P1_3 =1; //
+      0000A9 D2 93            [12]  570 	setb	_P1_3
+                                    571 ;	src/main.c:104: P1_4 =0; //
+      0000AB C2 94            [12]  572 	clr	_P1_4
+                                    573 ;	src/main.c:142: IT0 = 0; //Both rising and falling edge of INT0 can wake up MCU
+      0000AD C2 88            [12]  574 	clr	_IT0
+                                    575 ;	src/main.c:180: EX0 = 1; //external interrupt 0 would be enabled.
+      0000AF D2 A8            [12]  576 	setb	_EX0
+                                    577 ;	src/main.c:181: EA = 1;  //global - interrupt enabled
+      0000B1 D2 AF            [12]  578 	setb	_EA
+      0000B3 22               [24]  579 	ret
+                                    580 ;------------------------------------------------------------
+                                    581 ;Allocation info for local variables in function 'exint0'
+                                    582 ;------------------------------------------------------------
+                                    583 ;	src/main.c:190: INTERRUPT(exint0, IE0_VECTOR)   //void exint0(void) __interrupt(IE0_VECTOR) 
+                                    584 ;	-----------------------------------------
+                                    585 ;	 function exint0
+                                    586 ;	-----------------------------------------
+      0000B4                        587 _exint0:
+      0000B4 C0 E0            [24]  588 	push	acc
+      0000B6 C0 D0            [24]  589 	push	psw
+                                    590 ;	src/main.c:192: P1_2 =!P1_2; //out reverse pin 2 port 1
+      0000B8 B2 92            [12]  591 	cpl	_P1_2
+                                    592 ;	src/main.c:193: P1_3 =!P1_3; //
+      0000BA B2 93            [12]  593 	cpl	_P1_3
+                                    594 ;	src/main.c:194: P1_4 =!P1_4; //
+      0000BC B2 94            [12]  595 	cpl	_P1_4
+                                    596 ;	src/main.c:196: FLAG = INT0; //save the sate of INT0, INT0=0(falling); INT0=1(rising)
+      0000BE A2 B2            [12]  597 	mov	c,_INT0
+      0000C0 E4               [12]  598 	clr	a
+      0000C1 33               [12]  599 	rlc	a
+      0000C2 F5 30            [12]  600 	mov	_FLAG,a
+      0000C4 D0 D0            [24]  601 	pop	psw
+      0000C6 D0 E0            [24]  602 	pop	acc
+      0000C8 32               [24]  603 	reti
+                                    604 ;	eliminated unneeded mov psw,# (no regs used in bank)
+                                    605 ;	eliminated unneeded push/pop dpl
+                                    606 ;	eliminated unneeded push/pop dph
+                                    607 ;	eliminated unneeded push/pop b
+                                    608 ;------------------------------------------------------------
+                                    609 ;Allocation info for local variables in function 'main'
+                                    610 ;------------------------------------------------------------
+                                    611 ;	src/main.c:201: int main()
+                                    612 ;	-----------------------------------------
+                                    613 ;	 function main
+                                    614 ;	-----------------------------------------
+      0000C9                        615 _main:
+                                    616 ;	src/main.c:203: setup(); 
+      0000C9 12 00 65         [24]  617 	lcall	_setup
+                                    618 ;	src/main.c:205: while (1)
+      0000CC                        619 00102$:
+                                    620 ;	src/main.c:240: PCON = 0x02;    //Enter Stop/Power-Down Mode
+      0000CC 75 87 02         [24]  621 	mov	_PCON,#0x02
+                                    622 ;	src/main.c:242: NOP();          // Fisrt implement this statement and then enter interrupt service routine
+      0000CF 00               [12]  623 	NOP	
+                                    624 ;	src/main.c:244: NOP();
+      0000D0 00               [12]  625 	NOP	
+      0000D1 80 F9            [24]  626 	sjmp	00102$
+                                    627 	.area CSEG    (CODE)
+                                    628 	.area CONST   (CODE)
+                                    629 	.area XINIT   (CODE)
+                                    630 	.area CABS    (ABS,CODE)
