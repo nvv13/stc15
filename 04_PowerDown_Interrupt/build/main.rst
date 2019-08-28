@@ -548,7 +548,7 @@
                                     548 ;------------------------------------------------------------
                                     549 ;Allocation info for local variables in function 'exint0'
                                     550 ;------------------------------------------------------------
-                                    551 ;	src/main.c:172: void exint0(void) __interrupt(IE0_VECTOR) 
+                                    551 ;	src/main.c:172: INTERRUPT(exint0, IE0_VECTOR)   //void exint0(void) __interrupt(IE0_VECTOR) 
                                     552 ;	-----------------------------------------
                                     553 ;	 function exint0
                                     554 ;	-----------------------------------------
