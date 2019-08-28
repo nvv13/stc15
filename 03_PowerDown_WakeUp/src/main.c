@@ -33,8 +33,8 @@
 //   1,2,3 ножкам
 
 #include "stc15.h"
+#include <compiler.h>
 
-#define NOP() __asm NOP __endasm
 
 
 
