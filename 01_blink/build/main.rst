@@ -510,7 +510,7 @@
                                     510 ;ms                        Allocated to registers r6 r7 
                                     511 ;i                         Allocated to registers r4 r5 
                                     512 ;------------------------------------------------------------
-                                    513 ;	src/main.c:51: void  delay_ms(unsigned int ms)
+                                    513 ;	src/main.c:60: void  delay_ms(unsigned int ms)
                                     514 ;	-----------------------------------------
                                     515 ;	 function delay_ms
                                     516 ;	-----------------------------------------
@@ -525,12 +525,12 @@
                            000000   525 	ar0 = 0x00
       000062 AE 82            [24]  526 	mov	r6,dpl
       000064 AF 83            [24]  527 	mov	r7,dph
-                                    528 ;	src/main.c:54: do{
+                                    528 ;	src/main.c:63: do{
       000066                        529 00104$:
-                                    530 ;	src/main.c:55: i = FOSC / 17000;
+                                    530 ;	src/main.c:64: i = FOSC / 17000;
       000066 7C 0A            [12]  531 	mov	r4,#0x0a
       000068 7D 08            [12]  532 	mov	r5,#0x08
-                                    533 ;	src/main.c:56: while(--i)    ;
+                                    533 ;	src/main.c:65: while(--i)    ;
       00006A                        534 00101$:
       00006A EC               [12]  535 	mov	a,r4
       00006B 24 FF            [12]  536 	add	a,#0xff
@@ -543,7 +543,7 @@
       000076 EA               [12]  543 	mov	a,r2
       000077 4B               [12]  544 	orl	a,r3
       000078 70 F0            [24]  545 	jnz	00101$
-                                    546 ;	src/main.c:57: }while(--ms);
+                                    546 ;	src/main.c:66: }while(--ms);
       00007A EE               [12]  547 	mov	a,r6
       00007B 24 FF            [12]  548 	add	a,#0xff
       00007D FC               [12]  549 	mov	r4,a
@@ -559,70 +559,70 @@
                                     559 ;------------------------------------------------------------
                                     560 ;Allocation info for local variables in function 'setup'
                                     561 ;------------------------------------------------------------
-                                    562 ;	src/main.c:66: void setup(void)
+                                    562 ;	src/main.c:75: void setup(void)
                                     563 ;	-----------------------------------------
                                     564 ;	 function setup
                                     565 ;	-----------------------------------------
       00008B                        566 _setup:
-                                    567 ;	src/main.c:96: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
+                                    567 ;	src/main.c:105: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
       00008B 53 91 FB         [24]  568 	anl	_P1M1,#0xfb
-                                    569 ;	src/main.c:97: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
+                                    569 ;	src/main.c:106: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
       00008E 43 92 04         [24]  570 	orl	_P1M0,#0x04
-                                    571 ;	src/main.c:100: P1M1 &= ~(1<<3) ;
+                                    571 ;	src/main.c:109: P1M1 &= ~(1<<3) ;
       000091 53 91 F7         [24]  572 	anl	_P1M1,#0xf7
-                                    573 ;	src/main.c:101: P1M0 |= (1<<3) ;
+                                    573 ;	src/main.c:110: P1M0 |= (1<<3) ;
       000094 43 92 08         [24]  574 	orl	_P1M0,#0x08
-                                    575 ;	src/main.c:104: P1M1 &= ~(1<<4) ;
+                                    575 ;	src/main.c:113: P1M1 &= ~(1<<4) ;
       000097 53 91 EF         [24]  576 	anl	_P1M1,#0xef
-                                    577 ;	src/main.c:105: P1M0 |= (1<<4) ;
+                                    577 ;	src/main.c:114: P1M0 |= (1<<4) ;
       00009A 43 92 10         [24]  578 	orl	_P1M0,#0x10
-                                    579 ;	src/main.c:107: i_my_deley=START_DELAY;
+                                    579 ;	src/main.c:116: i_my_deley=START_DELAY;
       00009D 75 30 32         [24]  580 	mov	_i_my_deley,#0x32
       0000A0 75 31 00         [24]  581 	mov	(_i_my_deley + 1),#0x00
       0000A3 22               [24]  582 	ret
                                     583 ;------------------------------------------------------------
                                     584 ;Allocation info for local variables in function 'main'
                                     585 ;------------------------------------------------------------
-                                    586 ;	src/main.c:112: int main()
+                                    586 ;	src/main.c:121: int main()
                                     587 ;	-----------------------------------------
                                     588 ;	 function main
                                     589 ;	-----------------------------------------
       0000A4                        590 _main:
-                                    591 ;	src/main.c:114: setup();
+                                    591 ;	src/main.c:123: setup();
       0000A4 12 00 8B         [24]  592 	lcall	_setup
-                                    593 ;	src/main.c:118: while(1)
+                                    593 ;	src/main.c:127: while(1)
       0000A7                        594 00104$:
-                                    595 ;	src/main.c:121: P1_2 = 0; //out 0 pin 2 port 1
+                                    595 ;	src/main.c:130: P1_2 = 0; //out 0 pin 2 port 1
       0000A7 C2 92            [12]  596 	clr	_P1_2
-                                    597 ;	src/main.c:124: delay_ms(i_my_deley); // 
+                                    597 ;	src/main.c:133: delay_ms(i_my_deley); // 
       0000A9 85 30 82         [24]  598 	mov	dpl,_i_my_deley
       0000AC 85 31 83         [24]  599 	mov	dph,(_i_my_deley + 1)
       0000AF 12 00 62         [24]  600 	lcall	_delay_ms
-                                    601 ;	src/main.c:125: P1_2 = 1; //out 1 pin 2 port 1
+                                    601 ;	src/main.c:134: P1_2 = 1; //out 1 pin 2 port 1
       0000B2 D2 92            [12]  602 	setb	_P1_2
-                                    603 ;	src/main.c:141: P1_3 = 0; //out 0 pin 3 port 1
+                                    603 ;	src/main.c:150: P1_3 = 0; //out 0 pin 3 port 1
       0000B4 C2 93            [12]  604 	clr	_P1_3
-                                    605 ;	src/main.c:142: delay_ms(i_my_deley);
+                                    605 ;	src/main.c:151: delay_ms(i_my_deley);
       0000B6 85 30 82         [24]  606 	mov	dpl,_i_my_deley
       0000B9 85 31 83         [24]  607 	mov	dph,(_i_my_deley + 1)
       0000BC 12 00 62         [24]  608 	lcall	_delay_ms
-                                    609 ;	src/main.c:143: P1_3 = 1; //out 1 pin 3 port 1
+                                    609 ;	src/main.c:152: P1_3 = 1; //out 1 pin 3 port 1
       0000BF D2 93            [12]  610 	setb	_P1_3
-                                    611 ;	src/main.c:145: P1_4 = 0; //out 0 pin 4 port 1
+                                    611 ;	src/main.c:154: P1_4 = 0; //out 0 pin 4 port 1
       0000C1 C2 94            [12]  612 	clr	_P1_4
-                                    613 ;	src/main.c:146: delay_ms(i_my_deley);
+                                    613 ;	src/main.c:155: delay_ms(i_my_deley);
       0000C3 85 30 82         [24]  614 	mov	dpl,_i_my_deley
       0000C6 85 31 83         [24]  615 	mov	dph,(_i_my_deley + 1)
       0000C9 12 00 62         [24]  616 	lcall	_delay_ms
-                                    617 ;	src/main.c:147: P1_4 = 1; //out 1 pin 4 port 1
+                                    617 ;	src/main.c:156: P1_4 = 1; //out 1 pin 4 port 1
       0000CC D2 94            [12]  618 	setb	_P1_4
-                                    619 ;	src/main.c:149: i_my_deley-=1;
+                                    619 ;	src/main.c:158: i_my_deley-=1;
       0000CE 15 30            [12]  620 	dec	_i_my_deley
       0000D0 74 FF            [12]  621 	mov	a,#0xff
       0000D2 B5 30 02         [24]  622 	cjne	a,_i_my_deley,00114$
       0000D5 15 31            [12]  623 	dec	(_i_my_deley + 1)
       0000D7                        624 00114$:
-                                    625 ;	src/main.c:150: if(i_my_deley<=0)i_my_deley=START_DELAY;
+                                    625 ;	src/main.c:159: if(i_my_deley<=0)i_my_deley=START_DELAY;
       0000D7 C3               [12]  626 	clr	c
       0000D8 E4               [12]  627 	clr	a
       0000D9 95 30            [12]  628 	subb	a,_i_my_deley

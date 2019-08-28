@@ -502,7 +502,7 @@
                                     502 ;------------------------------------------------------------
                                     503 ;Allocation info for local variables in function 'setup'
                                     504 ;------------------------------------------------------------
-                                    505 ;	src/main.c:41: void setup(void)
+                                    505 ;	src/main.c:40: void setup(void)
                                     506 ;	-----------------------------------------
                                     507 ;	 function setup
                                     508 ;	-----------------------------------------
@@ -515,52 +515,52 @@
                            000002   515 	ar2 = 0x02
                            000001   516 	ar1 = 0x01
                            000000   517 	ar0 = 0x00
-                                    518 ;	src/main.c:71: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
+                                    518 ;	src/main.c:70: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
       000000 53 91 FB         [24]  519 	anl	_P1M1,#0xfb
-                                    520 ;	src/main.c:72: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
+                                    520 ;	src/main.c:71: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
       000003 43 92 04         [24]  521 	orl	_P1M0,#0x04
-                                    522 ;	src/main.c:75: P1M1 &= ~(1<<3) ;
+                                    522 ;	src/main.c:74: P1M1 &= ~(1<<3) ;
       000006 53 91 F7         [24]  523 	anl	_P1M1,#0xf7
-                                    524 ;	src/main.c:76: P1M0 |= (1<<3) ;
+                                    524 ;	src/main.c:75: P1M0 |= (1<<3) ;
       000009 43 92 08         [24]  525 	orl	_P1M0,#0x08
-                                    526 ;	src/main.c:79: P1M1 &= ~(1<<4) ;
+                                    526 ;	src/main.c:78: P1M1 &= ~(1<<4) ;
       00000C 53 91 EF         [24]  527 	anl	_P1M1,#0xef
-                                    528 ;	src/main.c:80: P1M0 |= (1<<4) ;
+                                    528 ;	src/main.c:79: P1M0 |= (1<<4) ;
       00000F 43 92 10         [24]  529 	orl	_P1M0,#0x10
-                                    530 ;	src/main.c:83: P1_2 =0; 
+                                    530 ;	src/main.c:82: P1_2 =0; 
       000012 C2 92            [12]  531 	clr	_P1_2
-                                    532 ;	src/main.c:86: P1_3 =1; //
+                                    532 ;	src/main.c:85: P1_3 =1; //
       000014 D2 93            [12]  533 	setb	_P1_3
-                                    534 ;	src/main.c:87: P1_4 =0; //
+                                    534 ;	src/main.c:86: P1_4 =0; //
       000016 C2 94            [12]  535 	clr	_P1_4
-                                    536 ;	src/main.c:108: WKTCL = 49;   // wake-up cycle: 488us*(49+1) = 24.4ms, suppose the frequency of chip is 18.432MHz
+                                    536 ;	src/main.c:107: WKTCL = 49;   // wake-up cycle: 488us*(49+1) = 24.4ms, suppose the frequency of chip is 18.432MHz
       000018 75 AA 31         [24]  537 	mov	_WKTCL,#0x31
-                                    538 ;	src/main.c:109: WKTCH = 0x80; // WKTEN=1
+                                    538 ;	src/main.c:108: WKTCH = 0x80; // WKTEN=1
       00001B 75 AB 80         [24]  539 	mov	_WKTCH,#0x80
       00001E 22               [24]  540 	ret
                                     541 ;------------------------------------------------------------
                                     542 ;Allocation info for local variables in function 'main'
                                     543 ;------------------------------------------------------------
-                                    544 ;	src/main.c:115: int main()
+                                    544 ;	src/main.c:114: int main()
                                     545 ;	-----------------------------------------
                                     546 ;	 function main
                                     547 ;	-----------------------------------------
       00001F                        548 _main:
-                                    549 ;	src/main.c:117: setup(); 
+                                    549 ;	src/main.c:116: setup(); 
       00001F 12r00r00         [24]  550 	lcall	_setup
-                                    551 ;	src/main.c:119: while (1)
+                                    551 ;	src/main.c:118: while (1)
       000022                        552 00102$:
-                                    553 ;	src/main.c:154: PCON = 0x02;    //Enter Stop/Power-Down Mode
+                                    553 ;	src/main.c:153: PCON = 0x02;    //Enter Stop/Power-Down Mode
       000022 75 87 02         [24]  554 	mov	_PCON,#0x02
-                                    555 ;	src/main.c:155: NOP();          // 
+                                    555 ;	src/main.c:154: NOP();          // 
       000025 00               [12]  556 	NOP	
-                                    557 ;	src/main.c:156: NOP();
+                                    557 ;	src/main.c:155: NOP();
       000026 00               [12]  558 	NOP	
-                                    559 ;	src/main.c:157: P1_2 =!P1_2; //out reverse pin 2 port 1
+                                    559 ;	src/main.c:156: P1_2 =!P1_2; //out reverse pin 2 port 1
       000027 B2 92            [12]  560 	cpl	_P1_2
-                                    561 ;	src/main.c:158: P1_3 =!P1_3; //
+                                    561 ;	src/main.c:157: P1_3 =!P1_3; //
       000029 B2 93            [12]  562 	cpl	_P1_3
-                                    563 ;	src/main.c:159: P1_4 =!P1_4; //
+                                    563 ;	src/main.c:158: P1_4 =!P1_4; //
       00002B B2 94            [12]  564 	cpl	_P1_4
       00002D 80 F3            [24]  565 	sjmp	00102$
                                     566 	.area CSEG    (CODE)

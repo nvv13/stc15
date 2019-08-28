@@ -502,7 +502,7 @@ __sdcc_program_startup:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'setup'
 ;------------------------------------------------------------
-;	src/main.c:41: void setup(void)
+;	src/main.c:40: void setup(void)
 ;	-----------------------------------------
 ;	 function setup
 ;	-----------------------------------------
@@ -515,52 +515,52 @@ _setup:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	src/main.c:71: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
+;	src/main.c:70: P1M1 &= ~(1<<2) ;//сбрасываем в 0, 2 бит
 	anl	_P1M1,#0xfb
-;	src/main.c:72: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
+;	src/main.c:71: P1M0 |= (1<<2)  ;//устанавливаем в 1, 2 бит
 	orl	_P1M0,#0x04
-;	src/main.c:75: P1M1 &= ~(1<<3) ;
+;	src/main.c:74: P1M1 &= ~(1<<3) ;
 	anl	_P1M1,#0xf7
-;	src/main.c:76: P1M0 |= (1<<3) ;
+;	src/main.c:75: P1M0 |= (1<<3) ;
 	orl	_P1M0,#0x08
-;	src/main.c:79: P1M1 &= ~(1<<4) ;
+;	src/main.c:78: P1M1 &= ~(1<<4) ;
 	anl	_P1M1,#0xef
-;	src/main.c:80: P1M0 |= (1<<4) ;
+;	src/main.c:79: P1M0 |= (1<<4) ;
 	orl	_P1M0,#0x10
-;	src/main.c:83: P1_2 =0; 
+;	src/main.c:82: P1_2 =0; 
 	clr	_P1_2
-;	src/main.c:86: P1_3 =1; //
+;	src/main.c:85: P1_3 =1; //
 	setb	_P1_3
-;	src/main.c:87: P1_4 =0; //
+;	src/main.c:86: P1_4 =0; //
 	clr	_P1_4
-;	src/main.c:108: WKTCL = 49;   // wake-up cycle: 488us*(49+1) = 24.4ms, suppose the frequency of chip is 18.432MHz
+;	src/main.c:107: WKTCL = 49;   // wake-up cycle: 488us*(49+1) = 24.4ms, suppose the frequency of chip is 18.432MHz
 	mov	_WKTCL,#0x31
-;	src/main.c:109: WKTCH = 0x80; // WKTEN=1
+;	src/main.c:108: WKTCH = 0x80; // WKTEN=1
 	mov	_WKTCH,#0x80
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;	src/main.c:115: int main()
+;	src/main.c:114: int main()
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	src/main.c:117: setup(); 
+;	src/main.c:116: setup(); 
 	lcall	_setup
-;	src/main.c:119: while (1)
+;	src/main.c:118: while (1)
 00102$:
-;	src/main.c:154: PCON = 0x02;    //Enter Stop/Power-Down Mode
+;	src/main.c:153: PCON = 0x02;    //Enter Stop/Power-Down Mode
 	mov	_PCON,#0x02
-;	src/main.c:155: NOP();          // 
+;	src/main.c:154: NOP();          // 
 	NOP	
-;	src/main.c:156: NOP();
+;	src/main.c:155: NOP();
 	NOP	
-;	src/main.c:157: P1_2 =!P1_2; //out reverse pin 2 port 1
+;	src/main.c:156: P1_2 =!P1_2; //out reverse pin 2 port 1
 	cpl	_P1_2
-;	src/main.c:158: P1_3 =!P1_3; //
+;	src/main.c:157: P1_3 =!P1_3; //
 	cpl	_P1_3
-;	src/main.c:159: P1_4 =!P1_4; //
+;	src/main.c:158: P1_4 =!P1_4; //
 	cpl	_P1_4
 	sjmp	00102$
 	.area CSEG    (CODE)
