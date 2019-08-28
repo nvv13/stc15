@@ -167,7 +167,7 @@ P1M1[7 : 0] P1M0 [7 : 0]
 //-----------------------------------------------
 unsigned char FLAG; //1:generate a interrupt on rising edge
            //0:generate a interrupt on falling edge
-//-----------------------------------------
+//---------------------------------------------
 //Interrupt service routine
 INTERRUPT(exint0, IE0_VECTOR)   //void exint0(void) __interrupt(IE0_VECTOR) 
 {
