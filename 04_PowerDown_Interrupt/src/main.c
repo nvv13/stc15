@@ -169,7 +169,7 @@ unsigned char FLAG; //1:generate a interrupt on rising edge
            //0:generate a interrupt on falling edge
 //-----------------------------------------
 //Interrupt service routine
-void exint0(void) __interrupt(IE0_VECTOR) 
+INTERRUPT(exint0, IE0_VECTOR)   //void exint0(void) __interrupt(IE0_VECTOR) 
 {
 P1_2 =!P1_2; //out reverse pin 2 port 1
 P1_3 =!P1_3; //
